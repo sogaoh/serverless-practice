@@ -22,7 +22,6 @@ functions:
       - http:
           path: now
           method: get
-
   post-now:
     handler: handler.now_to_slack
     environment: ${self:custom.environment.${self:provider.stage}}
