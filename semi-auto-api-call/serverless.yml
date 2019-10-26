@@ -29,3 +29,9 @@ functions:
       - http:
           path: post-now
           method: post
+  cron-now:
+    handler: handler.now_to_slack
+    environment: ${self:custom.environment.${self:provider.stage}}
+    events:
+      - schedule: cron(0/5 6 * * ? *)   # 15:*/5 JST
+        description: '15時台は5分ごとに時報'
