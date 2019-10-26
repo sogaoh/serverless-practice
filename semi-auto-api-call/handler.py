@@ -1,5 +1,10 @@
+# -*- coding: utf-8 -*-
+
 import json
 from datetime import datetime, timedelta, timezone
+
+from slack import post as n
+from functions import respond as r
 
 
 def now(event, context):
@@ -19,3 +24,8 @@ def now(event, context):
     }
 
     return response
+
+
+def now_to_slack(event, content):
+    notify_param = {'msgJson' : now(None, None)}
+    return n.message_body_post(notify_param, None)

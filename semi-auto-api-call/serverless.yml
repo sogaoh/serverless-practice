@@ -6,7 +6,14 @@ plugins:
 provider:
   name: aws
   runtime: python3.7
+  stage: ${opt:stage, self:custom.defaultStage}
   region: ap-northeast-1
+
+custom:
+  defaultStage: dev
+  environment:
+    dev: ${file(./env/dev.yml)}
+    prod: ${file(./env/prod.yml)}  
 
 functions:
   now:
@@ -15,3 +22,11 @@ functions:
       - http:
           path: now
           method: get
+
+  post-now:
+    handler: handler.now_to_slack
+    environment: ${self:custom.environment.${self:provider.stage}}
+    events:
+      - http:
+          path: post-now
+          method: post
