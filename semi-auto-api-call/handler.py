@@ -1,10 +1,16 @@
 import json
+from datetime import datetime, timedelta, timezone
 
 
-def hello(event, context):
+def now(event, context):
+    now_utc = datetime.now(timezone.utc)
+    now_pdt = datetime.now(timezone(timedelta(hours=-7), 'PDT'))
+    now_jst = datetime.now(timezone(timedelta(hours=+9), 'JST'))
+
     body = {
-        "message": "Go Serverless v1.0! Your function executed successfully!",
-        "input": event
+        "now_utc": now_utc.isoformat(timespec='minutes'),
+        "now_pdt": now_pdt.isoformat(timespec='minutes'),
+        "now_jst": now_jst.isoformat(timespec='minutes'),
     }
 
     response = {
@@ -13,12 +19,3 @@ def hello(event, context):
     }
 
     return response
-
-    # Use this code if you don't use the http event with the LAMBDA-PROXY
-    # integration
-    """
-    return {
-        "message": "Go Serverless v1.0! Your function executed successfully!",
-        "event": event
-    }
-    """
